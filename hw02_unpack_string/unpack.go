@@ -2,55 +2,44 @@ package hw02unpackstring
 
 import (
 	"errors"
+	"strconv"
+	"strings"
+	"unicode"
 )
 
 var ErrInvalidString = errors.New("invalid string")
 
-func Unpack(s string) (string, error) {
-	var symbol rune
-	str := ""
-	checkFistSymbol := true
-	checkSecondNumber := false
-	checkException := false
-	exeption := `\`
-	for _, v := range s {
-		switch {
-		case checkFistSymbol:
-			if 48 <= v && 57 >= v {
+func Unpack(str string) (string, error) {
+	var concatResult strings.Builder
+	symbol := []rune(str)
+	exeption := '\\'
+
+	if len(symbol) == 0 {
+		return "", nil
+	}
+	if !unicode.IsLetter(symbol[0]) {
+		return "", ErrInvalidString
+	}
+	for i := 0; i < len(symbol); i++ {
+		if unicode.IsDigit(symbol[i]) {
+			return "", ErrInvalidString
+		}
+		if i+1 < len(symbol) && symbol[i] == exeption {
+			i++
+			if !unicode.IsDigit(symbol[i]) && symbol[i] != exeption {
 				return "", ErrInvalidString
 			}
-			symbol = v
-			str += string(symbol)
-			checkFistSymbol = false
-		case string(v) == exeption && !checkException:
-			checkException = true
-			continue
-		case 48 < v && 57 >= v && !checkException:
-			if checkSecondNumber {
-				return "", ErrInvalidString
+		}
+		if i+1 < len(symbol) && unicode.IsDigit(symbol[i+1]) {
+			count, _ := strconv.Atoi(string(symbol[i+1]))
+			if count == 0 {
+				concatResult.WriteString(strings.TrimRight(string(symbol[i]), string(symbol[i])))
 			}
-			checkSecondNumber = true
-			for j := 0; j < int(v-48)-1; j++ {
-				str += string(symbol)
-			}
-		case 48 < v && v <= 57 && checkException:
-			symbol = v
-			str += string(symbol)
-			checkException = false
-		case v == 48:
-			if checkSecondNumber {
-				return "", ErrInvalidString
-			}
-			str = str[:len(str)-1]
-		case string(v) == exeption && checkException:
-			checkException = false
-			symbol = v
-			str += string(symbol)
-		default:
-			symbol = v
-			str += string(symbol)
-			checkSecondNumber = false
+			concatResult.WriteString(strings.Repeat(string(symbol[i]), count))
+			i++
+		} else {
+			concatResult.WriteString(string(symbol[i]))
 		}
 	}
-	return str, nil
+	return concatResult.String(), nil
 }

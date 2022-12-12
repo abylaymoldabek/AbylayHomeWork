@@ -43,3 +43,25 @@ func TestUnpackInvalidString(t *testing.T) {
 		})
 	}
 }
+
+func TestNotEnglishLetter(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{input: "приве3т", expected: "привееет"},
+		{input: "привет0т", expected: "привет"},
+		{input: "привет0", expected: "приве"},
+		{input: `При\вет`, expected: `Привет`}
+	}
+
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.input, func(t *testing.T) {
+			result, err := Unpack(tc.input)
+			require.NoError(t, err)
+			require.Equal(t, tc.expected, result)
+		})
+	}
+}
+  
