@@ -1,9 +1,7 @@
-
 package hw02unpackstring
 
-//nolint:all
 import (
-	"errors"
+	"errors" //nolint:all
 	"testing"
 
 	"github.com/stretchr/testify/require"
