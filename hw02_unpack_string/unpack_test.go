@@ -52,7 +52,7 @@ func TestNotEnglishLetter(t *testing.T) {
 		{input: "приве3т", expected: "привееет"},
 		{input: "привет0т", expected: "привет"},
 		{input: "привет0", expected: "приве"},
-		{input: `При\вет`, expected: `Привет`}
+		{input: `При\вет`, expected: `Привет`},
 	}
 
 	for _, tc := range tests {
