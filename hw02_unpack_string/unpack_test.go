@@ -1,7 +1,9 @@
+
 package hw02unpackstring
 
+//nolint:all
 import (
-	"errors" //nolint:goanalysis_metalinter
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/require"
