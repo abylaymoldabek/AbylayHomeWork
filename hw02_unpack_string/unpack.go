@@ -22,6 +22,10 @@ func Unpack(str string) (string, error) {
 		return "", nil
 	}
 
+	if symbols[len(symbols)-1] == backslash {
+		return "", ErrInvalidString
+	}
+
 	for i := 0; i < len(symbols); i++ {
 		if unicode.IsDigit(symbols[i]) {
 			return "", ErrInvalidString
