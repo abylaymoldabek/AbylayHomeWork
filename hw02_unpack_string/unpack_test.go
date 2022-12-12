@@ -1,9 +1,10 @@
 package hw02unpackstring
 
 import (
-	"errors"
-	"github.com/stretchr/testify/require"
+	"errors" //nolint:goanalysis_metalinter
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestUnpack(t *testing.T) {
