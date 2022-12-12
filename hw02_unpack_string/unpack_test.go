@@ -64,4 +64,3 @@ func TestNotEnglishLetter(t *testing.T) {
 		})
 	}
 }
-  
