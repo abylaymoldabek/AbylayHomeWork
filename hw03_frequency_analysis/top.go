@@ -14,11 +14,11 @@ func Top10(strWords string) []string {
 	}
 	text := strings.ToLower(strWords)
 	words := regexpForWords.FindAllString(text, -1)
-	cntMap := make(map[string]int, len(words))
+	cntMap := make(map[string]int)
 	for _, v := range words {
 		cntMap[v]++
 	}
-	keys := make([]string, 0, len(cntMap))
+	keys := make([]string, 0, 10)
 	for k := range cntMap {
 		keys = append(keys, k)
 	}
@@ -31,5 +31,5 @@ func Top10(strWords string) []string {
 	if len(keys) > 10 {
 		return keys[:10]
 	}
-	return nil
+	return keys
 }
