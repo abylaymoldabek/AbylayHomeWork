@@ -18,7 +18,7 @@ func Top10(strWords string) []string {
 	for _, v := range words {
 		cntMap[v]++
 	}
-	keys := make([]string, 0, 10)
+	keys := make([]string, 0, len(cntMap))
 	for k := range cntMap {
 		keys = append(keys, k)
 	}
